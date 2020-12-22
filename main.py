@@ -18,4 +18,17 @@ def youtube(url):
     with youtube_dl.YoutubeDL(options) as ydl:
         res = ydl.extract_info(url, download=False)
         return res['url']
+    
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    bot.reply_to(message, "Hi, send me a video link")
 
+
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    link = youtube(message.text)
+    bot.reply_to(message, link)
+
+
+print('Start bot')
+bot.polling()
